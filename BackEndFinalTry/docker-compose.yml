@@ -1,0 +1,28 @@
+networks:
+
+  slut:
+
+services:
+
+  database:
+    image: postgres:latest
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: mydatabase
+
+    networks:
+      - slut
+
+  wildfly:
+    build:
+      context: ./
+    networks:
+      - slut
+    ports:
+       - "9385:8080"
+    depends_on:
+      - database
